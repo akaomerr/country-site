@@ -1,6 +1,6 @@
 import requests
 from flask import Flask
-from flask import render_template
+from flask import render_template,request
 
 COUNTRY_LIST = []
 countries_requests = requests.get("https://restcountries.com/v3.1/all")
@@ -12,7 +12,7 @@ r = requests.get(URL)
 country_data = r.json()
 
 for countries in countries_data:
-  country = countries["name"]["common"]
+  country = countries["name"]["common"].lower()
   COUNTRY_LIST.append(country)
 
 print(len(COUNTRY_LIST))
@@ -37,9 +37,22 @@ print(country_common, "--", country_official)
 
 
 app=Flask(__name__)
+
+
 @app.route("/")
 def index():
-  return render_template("index.html")
+  return render_template("index.html", countries=[country.capitalize() for country in COUNTRY_LIST])
+
+
+@app.route('/search',methods=['POST'])
+def search():
+    user_input = request.form['country'].lower()
+    if user_input in COUNTRY_LIST:
+        result = user_input.capitalize()
+    else:
+        result = None
+
+    return render_template('index.html', result=result)
 
 
 if __name__ == "__main__":
