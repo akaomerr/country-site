@@ -13,3 +13,13 @@
     left: 50%;
     transform: translate(-50%);
 }
+.card-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+.card{
+    transform: scale(1.4) !important;
+}
+
