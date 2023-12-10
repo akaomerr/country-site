@@ -39,24 +39,22 @@ def country(country):
     c=requests.get(country_url)
     c_data=c.json()
     for cs in c_data:
-       official=cs["name"]["official"]
-       flag=cs["flags"]["png"]
-       location=cs["maps"]["googleMaps"]
-       lat_lng=cs["latlng"]#list
-       capital=cs["capital"]
-       subregion=cs["subregion"]
-       languages=cs["languages"]
-       for currencies in cs["currencies"]:
-          currencie=currencies
-          currencie_symbol=cs["currencies"][currencie]["symbol"]
-       area=cs["area"]
-       population=cs["population"]
-
-    
-    
-    country_description = "deneme"
-    return render_template('country.html', country=country, description=country_description, official=official,flag=flag,location=location,lat_lng=lat_lng,capital=capital,
-                           subregion=subregion, languages=languages, currencie=currencie, currencie_symbol=currencie_symbol, area=area,population=population)
+      official = cs["name"]["official"]
+      flag = cs["flags"]["png"]
+      location = cs["maps"]["googleMaps"]
+      lat_lng = cs["latlng"]  # list
+      capital = cs["capital"]
+      subregion = cs["subregion"]
+      for languages in cs["languages"].items():
+        language=languages[1]
+      for currencies, currency_info in cs["currencies"].items():
+          currencie = currencies
+          currencie_symbol = currency_info["symbol"]
+      area = cs["area"]
+      population = cs["population"]
+    print(languages)
+    return render_template('country.html', country=country, official=official,flag=flag,location=location,lat_lng=lat_lng,capital=capital,
+                           subregion=subregion, language=language, currencie=currencie, currencie_symbol=currencie_symbol, area=area,population=population)
 
 
 if __name__ == "__main__":
